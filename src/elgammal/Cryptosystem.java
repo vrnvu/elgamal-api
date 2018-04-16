@@ -1,5 +1,10 @@
 package elgammal;
 
+import java.math.BigInteger;
+
 public interface Cryptosystem {
-    void encrypt();
+
+    Vote encrypt(BigInteger plain);
+    BigInteger decrypt(Vote vote);
+
 }
