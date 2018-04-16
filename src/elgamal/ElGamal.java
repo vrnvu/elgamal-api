@@ -1,14 +1,14 @@
-package elgammal;
+package elgamal;
 
 import java.math.BigInteger;
 
-public class ElGammal implements Cryptosystem {
+public class ElGamal implements Cryptosystem {
 
     private final BigInteger privateKey;
     private final BigInteger g;
     private final BigInteger q;
 
-    public ElGammal() {
+    public ElGamal() {
         privateKey = null;
         g = null;
         q = null;
