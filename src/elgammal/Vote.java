@@ -10,4 +10,11 @@ public class Vote {
         this.vote = vote;
     }
 
+    public BigInteger getVote() {
+        return vote;
+    }
+
+    public void setVote(BigInteger vote) {
+        this.vote = vote;
+    }
 }
