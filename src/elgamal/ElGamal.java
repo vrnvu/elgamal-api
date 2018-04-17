@@ -64,7 +64,9 @@ public class ElGamal implements Cryptosystem {
 
     @Override
     public BigInteger decrypt(Vote vote) {
-        return null;
+        // When is needed?
+        BigInteger s = vote.getC1().pow(x);
+        return vote.getC2().pow(s.pow(-1).intValue());
     }
 
     public static void main(String[] args) {
