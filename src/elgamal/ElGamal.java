@@ -7,7 +7,8 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class ElGamal implements Cryptosystem {
 
-    private BigInteger privateKey;
+    private int x;
+    private BigInteger h;
     private BigInteger generator;
     private BigInteger order;
     private BigInteger grade;
@@ -25,8 +26,8 @@ public class ElGamal implements Cryptosystem {
     }
 
     private void generatePrivateKey() {
-        int randomNum = ThreadLocalRandom.current().nextInt(1, grade.subtract(ONE).intValue());
-        privateKey = generator.pow(randomNum);
+        x = ThreadLocalRandom.current().nextInt(1, grade.subtract(ONE).intValue());
+        h = generator.pow(x);
     }
 
     private void generateCyclicGroup() {
@@ -53,7 +54,12 @@ public class ElGamal implements Cryptosystem {
 
     @Override
     public Vote encrypt(BigInteger plain) {
-        return null;
+        int y = ThreadLocalRandom.current().nextInt(1, grade.subtract(ONE).intValue());
+        BigInteger c1 = generator.pow(y);
+        BigInteger s = h.pow(y);
+        // Map message "plain" to an element m' of G
+        BigInteger c2 = plain.multiply(s);
+        return new Vote(c1, c2);
     }
 
     @Override
