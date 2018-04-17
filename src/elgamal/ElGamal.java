@@ -22,15 +22,11 @@ public class ElGamal implements Cryptosystem {
         r = new SecureRandom();
         generateCyclicGroup();
         generatePrivateKey();
-        privateKey = null;
-        generator = null;
-        order = null;
-        grade = null;
-
     }
 
     private void generatePrivateKey() {
-
+        int randomNum = ThreadLocalRandom.current().nextInt(1, grade.subtract(ONE).intValue());
+        privateKey = generator.pow(randomNum);
     }
 
     private void generateCyclicGroup() {
