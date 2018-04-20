@@ -17,7 +17,7 @@ class ElGamalTest {
     @BeforeEach
     void init() {
         gamal = new ElGamal();
-        r = ThreadLocalRandom.current().nextLong(0, gamal.getGrade().subtract(gamal.getONE()).longValue());
+        r = ThreadLocalRandom.current().nextLong(0, gamal.getGrade().subtract(gamal.ONE).longValue());
         number = new BigInteger(String.valueOf(r));
     }
 
