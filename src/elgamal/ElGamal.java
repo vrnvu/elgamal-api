@@ -78,7 +78,7 @@ public class ElGamal implements Cryptosystem {
 
         BigInteger message1 = new BigInteger("1");
         System.out.println("Before encryption: " + message1.toString());
-        BigInteger message2 = new BigInteger("11");
+        BigInteger message2 = new BigInteger("2");
         System.out.println("Before encryption: " + message2.toString());
         BigInteger message3 = new BigInteger("3");
         System.out.println("Before encryption: " + message3.toString());
