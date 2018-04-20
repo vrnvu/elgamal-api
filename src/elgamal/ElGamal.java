@@ -21,26 +21,26 @@ public class ElGamal implements Cryptosystem {
     // https://crypto.stackexchange.com/questions/1451/elgamal-multiplicative-cyclic-group-and-key-generation?rq=1
     public ElGamal() {
         r = new SecureRandom();
-        generateCyclicGroup();
+        generateCyclicGroup(50);
         generatePrivateKey();
     }
 
     private void generatePrivateKey() {
-        int r = ThreadLocalRandom.current().nextInt(0, grade.subtract(ONE).intValue());
+        long r = ThreadLocalRandom.current().nextLong(0, grade.subtract(ONE).longValue());
         x = new BigInteger(String.valueOf(r));
         h = g.modPow(x, grade);
     }
 
-    private void generateCyclicGroup() {
+    private void generateCyclicGroup(int bitSize) {
         boolean gradeIsPrime;
         do {
-            order = new BigInteger(3, 10, r);
+            order = new BigInteger(bitSize, 10, r);
             grade = TWO.multiply(order).add(BigInteger.ONE);
             gradeIsPrime = grade.isProbablePrime(10);
             } while (!gradeIsPrime);
 
         do {
-            int randomNum = ThreadLocalRandom.current().nextInt(2, grade.subtract(ONE).intValue());
+            long randomNum = ThreadLocalRandom.current().nextLong(2, grade.subtract(ONE).longValue());
             g = new BigInteger(String.valueOf(randomNum));
         } while (g.modPow(TWO, grade).equals(ONE));
 
@@ -52,14 +52,14 @@ public class ElGamal implements Cryptosystem {
 
     public void printGroupDetails() {
         System.out.println(String.format("order=%d grade=%d g=%d h=%d",
-                this.order.intValue(), this.grade.intValue(), this.g.intValue(),
-                this.h.intValue(),  this.x.intValue()));
+                this.order.longValue(), this.grade.longValue(), this.g.longValue(),
+                this.h.longValue(),  this.x.longValue()));
     }
 
     @Override
     public Vote encrypt(BigInteger plain) {
         BigInteger m = plain.mod(grade);
-        BigInteger random = BigInteger.valueOf(ThreadLocalRandom.current().nextInt(2, grade.subtract(ONE).intValue()));
+        BigInteger random = BigInteger.valueOf(ThreadLocalRandom.current().nextLong(2, grade.subtract(ONE).longValue()));
         BigInteger c1 = g.modPow(random, grade);
         BigInteger s = h.modPow(random, grade);
         BigInteger c2 = m.multiply(s).mod(grade);
@@ -75,12 +75,17 @@ public class ElGamal implements Cryptosystem {
     public static void main(String[] args) {
         ElGamal gamal = new ElGamal();
         gamal.printGroupDetails();
-
-        BigInteger message1 = new BigInteger("1");
+        long r = ThreadLocalRandom.current().nextLong(0, gamal.grade.subtract(ONE).longValue());
+        BigInteger n = new BigInteger(String.valueOf(r));
+        BigInteger message1 = new BigInteger(String.valueOf(n));
         System.out.println("Before encryption: " + message1.toString());
-        BigInteger message2 = new BigInteger("2");
+        r = ThreadLocalRandom.current().nextLong(0, gamal.grade.subtract(ONE).longValue());
+        n = new BigInteger(String.valueOf(r));
+        BigInteger message2 = new BigInteger(String.valueOf(n));
         System.out.println("Before encryption: " + message2.toString());
-        BigInteger message3 = new BigInteger("3");
+        r = ThreadLocalRandom.current().nextLong(0, gamal.grade.subtract(ONE).longValue());
+        n = new BigInteger(String.valueOf(r));
+        BigInteger message3 = new BigInteger(String.valueOf(n));
         System.out.println("Before encryption: " + message3.toString());
         Vote v1 = gamal.encrypt(message1);
         Vote v2 = gamal.encrypt(message2);
