@@ -28,7 +28,7 @@ ElGamal encryption consists of three components: the key generator, the encrypti
 * Alice computes h:=g^x.
 * Alice publishes h , along with the description of G , q , g as her public key. Alice retains x as her private key, which must be kept secret.
   
-
+( https://crypto.stackexchange.com/questions/1451/elgamal-multiplicative-cyclic-group-and-key-generation?rq=1 )
   
 ## Encryption
 

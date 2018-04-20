@@ -17,8 +17,6 @@ public class ElGamal implements Cryptosystem {
     public static final BigInteger TWO = BigInteger.ONE.add(BigInteger.ONE);
     private Random r;
 
-
-    // https://crypto.stackexchange.com/questions/1451/elgamal-multiplicative-cyclic-group-and-key-generation?rq=1
     public ElGamal() {
         r = new SecureRandom();
         generateCyclicGroup(50);
