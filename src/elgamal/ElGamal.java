@@ -13,8 +13,8 @@ public class ElGamal implements Cryptosystem {
     private BigInteger order;
     private BigInteger grade;
 
-    private static final BigInteger ONE = BigInteger.ONE;
-    private static final BigInteger TWO = BigInteger.ONE.add(BigInteger.ONE);
+    public static final BigInteger ONE = BigInteger.ONE;
+    public static final BigInteger TWO = BigInteger.ONE.add(BigInteger.ONE);
     private Random r;
 
 
@@ -75,11 +75,11 @@ public class ElGamal implements Cryptosystem {
         return inverse_s.multiply(vote.getC2()).mod(grade);
     }
 
-    public BigInteger getH() {
+    public BigInteger getPublicKey() {
         return h;
     }
 
-    public BigInteger getG() {
+    public BigInteger getGenerator() {
         return g;
     }
 
@@ -87,37 +87,4 @@ public class ElGamal implements Cryptosystem {
         return grade;
     }
 
-    public static BigInteger getONE() {
-        return ONE;
-    }
-
-    public static BigInteger getTWO() {
-        return TWO;
-    }
-
-    public static void main(String[] args) {
-        ElGamal gamal = new ElGamal();
-        gamal.printDetails();
-        long r = ThreadLocalRandom.current().nextLong(0, gamal.grade.subtract(ONE).longValue());
-        BigInteger n = new BigInteger(String.valueOf(r));
-        BigInteger message1 = new BigInteger(String.valueOf(n));
-        System.out.println("Before encryption: " + message1.toString());
-        r = ThreadLocalRandom.current().nextLong(0, gamal.grade.subtract(ONE).longValue());
-        n = new BigInteger(String.valueOf(r));
-        BigInteger message2 = new BigInteger(String.valueOf(n));
-        System.out.println("Before encryption: " + message2.toString());
-        r = ThreadLocalRandom.current().nextLong(0, gamal.grade.subtract(ONE).longValue());
-        n = new BigInteger(String.valueOf(r));
-        BigInteger message3 = new BigInteger(String.valueOf(n));
-        System.out.println("Before encryption: " + message3.toString());
-        Vote v1 = gamal.encrypt(message1);
-        Vote v2 = gamal.encrypt(message2);
-        Vote v3 = gamal.encrypt(message3);
-        BigInteger r1 = gamal.decrypt(v1);
-        BigInteger r2 = gamal.decrypt(v2);
-        BigInteger r3 = gamal.decrypt(v3);
-        System.out.println("After decrypt: " +r1.toString());
-        System.out.println("After decrypt: " +r2.toString());
-        System.out.println("After decrypt: " +r3.toString());
-    }
 }
