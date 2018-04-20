@@ -25,13 +25,15 @@ public class ElGamal implements Cryptosystem {
         generatePrivateKey();
     }
 
-    private void generatePrivateKey() {
+    @Override
+    public void generatePrivateKey() {
         long r = ThreadLocalRandom.current().nextLong(0, grade.subtract(ONE).longValue());
         x = new BigInteger(String.valueOf(r));
         h = g.modPow(x, grade);
     }
 
-    private void generateCyclicGroup(int bitSize) {
+    @Override
+    public void generateCyclicGroup(int bitSize) {
         boolean gradeIsPrime;
         do {
             order = new BigInteger(bitSize, 10, r);
@@ -50,7 +52,8 @@ public class ElGamal implements Cryptosystem {
 
     }
 
-    public void printGroupDetails() {
+    @Override
+    public void printDetails() {
         System.out.println(String.format("order=%d grade=%d g=%d h=%d",
                 this.order.longValue(), this.grade.longValue(), this.g.longValue(),
                 this.h.longValue(),  this.x.longValue()));
@@ -72,9 +75,29 @@ public class ElGamal implements Cryptosystem {
         return inverse_s.multiply(vote.getC2()).mod(grade);
     }
 
+    public BigInteger getH() {
+        return h;
+    }
+
+    public BigInteger getG() {
+        return g;
+    }
+
+    public BigInteger getGrade() {
+        return grade;
+    }
+
+    public static BigInteger getONE() {
+        return ONE;
+    }
+
+    public static BigInteger getTWO() {
+        return TWO;
+    }
+
     public static void main(String[] args) {
         ElGamal gamal = new ElGamal();
-        gamal.printGroupDetails();
+        gamal.printDetails();
         long r = ThreadLocalRandom.current().nextLong(0, gamal.grade.subtract(ONE).longValue());
         BigInteger n = new BigInteger(String.valueOf(r));
         BigInteger message1 = new BigInteger(String.valueOf(n));
