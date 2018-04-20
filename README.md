@@ -49,6 +49,14 @@ The decryption algorithm works as follows: to decrypt a ciphertext ( c1 , c2 ) w
 * Alice calculates the shared secret s:=c1^x
 * Alice computes m':=c2 s^-1 which she then converts back into the plaintext message m, where s^-1 is the inverse of s in the group G. 
 
+# Efficiency
+
+The division by s can be avoided by using an alternative method for decryption. To decrypt a ciphertext ( c1 , c  ) with Alice's private key x ,
+
+Alice calculates s'= c1 ^ (q-x) = g ^ ((q-x)y).
+
+s' is the inverse of s. This is a consequence of Lagrange's theorem.
+
 # Credits
 
 Arnau Díaz
