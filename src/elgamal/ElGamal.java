@@ -12,6 +12,7 @@ public class ElGamal implements Cryptosystem {
     private BigInteger g;
     private BigInteger order;
     private BigInteger grade;
+    private Encrypter encrypter;
 
     public static final BigInteger ONE = BigInteger.ONE;
     public static final BigInteger TWO = BigInteger.ONE.add(BigInteger.ONE);
@@ -19,8 +20,13 @@ public class ElGamal implements Cryptosystem {
 
     public ElGamal() {
         r = new SecureRandom();
-        generateCyclicGroup(50);
+        generateCyclicGroup(10);
         generatePrivateKey();
+        setEncrypter();
+    }
+
+    private void setEncrypter() {
+        encrypter = new Encrypter(grade, g, h);
     }
 
     @Override
@@ -59,28 +65,16 @@ public class ElGamal implements Cryptosystem {
 
     @Override
     public Vote encrypt(BigInteger plain) {
-        BigInteger m = plain.mod(grade);
-        BigInteger random = BigInteger.valueOf(ThreadLocalRandom.current().nextLong(2, grade.subtract(ONE).longValue()));
-        BigInteger c1 = g.modPow(random, grade);
-        BigInteger s = h.modPow(random, grade);
-        BigInteger c2 = m.multiply(s).mod(grade);
-        return new Vote(c1, c2);
+        return encrypter.encrypt(plain);
     }
 
     @Override
     public BigInteger decrypt(Vote vote) {
-        BigInteger inverse_s = vote.getC1().modPow(order.subtract(x), grade);
-        return inverse_s.multiply(vote.getC2()).mod(grade);
+        return encrypter.decrypt(vote, order, x);
     }
 
     public Vote encryptHomomorphic(BigInteger plain) {
-        BigInteger m = plain.mod(grade);
-        m = g.modPow(m, grade);
-        BigInteger random = BigInteger.valueOf(ThreadLocalRandom.current().nextLong(2, grade.subtract(ONE).longValue()));
-        BigInteger c1 = g.modPow(random, grade);
-        BigInteger s = h.modPow(random, grade);
-        BigInteger c2 = m.multiply(s).mod(grade);
-        return new Vote(c1, c2);
+        return encrypter.encryptHomomorphic(plain);
     }
 
     public BigInteger getPublicKey() {
