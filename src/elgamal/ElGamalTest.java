@@ -22,7 +22,7 @@ class ElGamalTest {
     }
 
     @Test
-    void EncryptOne() {
+    void encryptOne() {
         BigInteger message = new BigInteger(String.valueOf(number));
         Vote vote = gamal.encrypt(message);
         BigInteger result = gamal.decrypt(vote);
@@ -30,7 +30,7 @@ class ElGamalTest {
     }
 
     @Test
-    void EncryptTwo() {
+    void encryptTwo() {
         BigInteger message = new BigInteger(String.valueOf(number));
         Vote vote = gamal.encrypt(message);
         BigInteger result = gamal.decrypt(vote);
@@ -38,11 +38,23 @@ class ElGamalTest {
     }
 
     @Test
-    void EncryptThree() {
+    void encryptThree() {
         BigInteger message = new BigInteger(String.valueOf(number));
         Vote vote = gamal.encrypt(message);
         BigInteger result = gamal.decrypt(vote);
         assertEquals(message, result);
+    }
+
+    @Test
+    void homomorphic() {
+        BigInteger message = new BigInteger(String.valueOf(number));
+        Vote vote1 = gamal.encryptHomomorphic(message);
+        Vote vote2 = gamal.encryptHomomorphic(message);
+        System.out.println(vote1.getC1());
+        System.out.println(vote1.getC2());
+        System.out.println(vote2.getC1());
+        System.out.println(vote2.getC2());
+
     }
 
 }
