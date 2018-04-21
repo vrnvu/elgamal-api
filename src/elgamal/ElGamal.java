@@ -40,20 +40,30 @@ public class ElGamal implements Cryptosystem {
     public void generateCyclicGroup(int bitSize) {
         boolean gradeIsPrime;
         do {
-            order = new BigInteger(bitSize, 10, r);
-            grade = TWO.multiply(order).add(BigInteger.ONE);
-            gradeIsPrime = grade.isProbablePrime(10);
+            gradeIsPrime = generateOrderGrade(bitSize);
             } while (!gradeIsPrime);
 
         do {
-            long randomNum = ThreadLocalRandom.current().nextLong(2, grade.subtract(ONE).longValue());
-            g = new BigInteger(String.valueOf(randomNum));
+            genereateGroupGenerator();
         } while (g.modPow(TWO, grade).equals(ONE));
 
         if(!g.modPow(order, grade).equals(ONE)) {
             g = g.modPow(TWO, grade);
         }
 
+    }
+
+    private void genereateGroupGenerator() {
+        long randomNum = ThreadLocalRandom.current().nextLong(2, grade.subtract(ONE).longValue());
+        g = new BigInteger(String.valueOf(randomNum));
+    }
+
+    private boolean generateOrderGrade(int bitSize) {
+        boolean gradeIsPrime;
+        order = new BigInteger(bitSize, 10, r);
+        grade = TWO.multiply(order).add(BigInteger.ONE);
+        gradeIsPrime = grade.isProbablePrime(10);
+        return gradeIsPrime;
     }
 
     @Override
