@@ -47,14 +47,11 @@ class ElGamalTest {
 
     @Test
     void homomorphic() {
-        BigInteger message = new BigInteger(String.valueOf("1"));
-        BigInteger message2 = new BigInteger(String.valueOf("2"));
+        BigInteger message = new BigInteger(String.valueOf("12"));
         Vote vote1 = gamal.encryptHomomorphic(message);
-        Vote vote2 = gamal.encryptHomomorphic(message2);
-        Vote addition = gamal.addHomomorphic(vote1, vote2);
         System.out.println(message.toString());
-        BigInteger decryptAddition = gamal.decryptHomomorphic(addition);
-        System.out.println(decryptAddition.toString());
+        BigInteger decryptedAddition = gamal.decryptHomomorphic(vote1);
+        System.out.println(decryptedAddition.toString());
     }
 
 }

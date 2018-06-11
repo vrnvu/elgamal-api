@@ -3,6 +3,8 @@ package elgamal;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class ElectionTallyTest {
@@ -53,6 +55,23 @@ class ElectionTallyTest {
         int noCount = tally.getNoCount();
         assertEquals(45, yesCount);
         assertEquals(55, noCount);
+    }
+
+
+    @Test
+    void random100Tests() {
+        for (int i = 0; i < 100; i++) {
+            int yesVotes = ThreadLocalRandom.current().nextInt(0, capacity);
+            int noVotes = capacity - yesVotes;
+            int result = yesVotes * yes + noVotes * no;
+            tally.setResult(result);
+            tally.tallyResult();
+            int yesCount = tally.getYesCount();
+            int noCount = tally.getNoCount();
+            assertEquals(yesVotes, yesCount);
+            assertEquals(noVotes, noCount);
+            System.out.println("Test: " + i + " YES: "+yesCount + " NO: " + noCount);
+        }
     }
 
 }

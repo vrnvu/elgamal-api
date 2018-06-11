@@ -94,10 +94,12 @@ public class ElGamal implements Cryptosystem {
     }
 
     public BigInteger decryptHomomorphic(Vote encryptedResult) {
-        BigInteger d = encryptedResult.getC1();
-        BigInteger c = encryptedResult.getC2();
-        BigInteger result = d.divide(c.modPow(x, grade)).mod(grade);
-        return result;
+
+        BigInteger c = encryptedResult.getC1();
+        BigInteger d = encryptedResult.getC2();
+
+        BigInteger inverse_s = c.modPow(order.subtract(x), grade);
+        return inverse_s.multiply(d).mod(grade);
     }
 
     public BigInteger getPublicKey() {
